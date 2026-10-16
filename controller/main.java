@@ -8,7 +8,7 @@ interface Customizable{
     void notCustomize();
 }
 
-enum ukuran {
+enum EnumUkuran {
     SMALL,
     MEDIUM,
     LARGE
