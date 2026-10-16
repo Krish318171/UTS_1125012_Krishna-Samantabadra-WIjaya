@@ -42,7 +42,8 @@ class kopi extends MenuItem implements Customizable{
     private String gula;
     private String karamel;
 
-    kopi(String rum, Strng es, String gula, String karamel){
+    kopi(String id, String nama, double hargaBase, int stok, String rum, Strng es, String gula, String karamel){
+        super(id, nama, hargaBase, stok);
         this.rum = rum;
         this.es = es;
         this.gula = gula;
@@ -72,7 +73,8 @@ class teh extends MenuItem implements Customizable{
     private String gula;
     private String karamel;
 
-    teh(String boba, String es, String gula, String karamel){
+    teh(String id, String nama, double hargaBase, int stok, String boba, String es, String gula, String karamel){
+        super(id, nama, hargaBase, stok);
         this.boba = boba;
         this.es = es;
         this.gula = gula;
@@ -101,7 +103,8 @@ class roti extends MenuItem implements Customizable{
     private String meses;
     private String karamel;
 
-    roti(String gula, String meses, String karamel){
+    roti(String id, String nama, double hargaBase, int stok, String gula, String meses, String karamel){
+        super(id, nama, hargaBase, stok);
         this.gula = gula;
         this.meses = meses;
         this.karamel = karamel;
