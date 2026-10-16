@@ -1,11 +1,11 @@
-//git add .
-//git commit -m "update code"
-//git push
+
 package controller;
 
-interface Customizable{
-    void customize();
-    void notCustomize();
+import java.util.List;
+
+interface Customizable {
+    void customize(List<Integer> customizations);
+    void customize(int[] customizations);
 }
 
 enum EnumUkuran {
@@ -21,108 +21,261 @@ abstract class MenuItem {
     private double hargaBase;
     private int stok;
 
-    MenuItem(String id, String nama, double hargaBase, int stok){
+    MenuItem(String id, String nama, double hargaBase, int stok) {
         this.id = id;
         this.nama = nama;
         this.hargaBase = hargaBase;
         this.stok = stok;
+    }
 
+    String getId() {
+        return id;
+    }
+
+    String getNama() {
+        return nama;
+    }
+
+    double getHargaBase() {
+        return hargaBase;
+    }
+
+    int getStok() {
+        return stok;
+    }
+
+    void kurangiStok(int jumlah) {
+        stok -= jumlah;
     }
 
     abstract double hitungHargaTotal();
 
-    
+    abstract String getOrderDetail();
 
+    double hitungHargaTotal(int jumlah) {
+        return hitungHargaTotal() * jumlah;
+    }
 
+    double hitungHargaTotal(int jumlah, String kodePromo) {
+        double total = hitungHargaTotal(jumlah);
+
+        if ("HEMAT10".equalsIgnoreCase(kodePromo)) {
+            total = total * 0.90;
+        }
+
+        return total;
+    }
+
+    double hitungHargaTotal(int jumlah, EnumUkuran ukuran) {
+        double total = hitungHargaTotal(jumlah);
+
+        switch (ukuran) {
+            case SMALL:
+                return total;
+            case MEDIUM:
+                return total * 1.2;
+            case LARGE:
+                return total * 1.5;
+            default:
+                return total;
+        }
+    }
 }
 
-class kopi extends MenuItem implements Customizable{
-    private String rum;
-    private String es;
-    private String gula;
-    private String karamel;
+class Kopi extends MenuItem implements Customizable {
 
-    kopi(String id, String nama, double hargaBase, int stok, String rum, Strng es, String gula, String karamel){
+    private int rum;
+    private int es;
+    private int gula;
+    private int karamel;
+
+    Kopi(String id, String nama, double hargaBase, int stok) {
         super(id, nama, hargaBase, stok);
-        this.rum = rum;
-        this.es = es;
-        this.gula = gula;
-        this.karamel = karamel;
+    }
+
+    @Override
+    public void customize(int[] c) {
+        if (c.length != 4 ||
+            c[0] < 0 || c[0] > 1 ||
+            c[1] < 0 || c[1] > 5 ||
+            c[2] < 0 || c[2] > 5 ||
+            c[3] < 0 || c[3] > 5) {
+            throw new IllegalArgumentException(
+                "Kustomisasi tidak valid.");
+        }
+
+        rum = c[0];
+        es = c[1];
+        gula = c[2];
+        karamel = c[3];
+    }
+
+    @Override
+    public void customize(List<Integer> c) {
+        customize(new int[]{
+            c.get(0), c.get(1), c.get(2), c.get(3)
+        });
     }
 
     @Override
     double hitungHargaTotal() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return getHargaBase()
+            + rum * 3000
+            + karamel * 3000;
     }
 
     @Override
-    public void customize() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    String getOrderDetail() {
+        return getNama()
+            + " | Rum: " + rum
+            + ", Es: " + es
+            + ", Gula: " + gula
+            + ", Karamel: " + karamel;
     }
-
-    @Override
-    public void notCustomize() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
 }
 
-class teh extends MenuItem implements Customizable{
-    private String boba;
-    private String es;
-    private String gula;
-    private String karamel;
+class Teh extends MenuItem implements Customizable {
 
-    teh(String id, String nama, double hargaBase, int stok, String boba, String es, String gula, String karamel){
+    private int boba;
+    private int es;
+    private int gula;
+    private int karamel;
+
+    Teh(String id, String nama, double hargaBase, int stok) {
         super(id, nama, hargaBase, stok);
-        this.boba = boba;
-        this.es = es;
-        this.gula = gula;
-        this.karamel = karamel;
+    }
+
+    @Override
+    public void customize(int[] c) {
+        if (c.length != 4 ||
+            c[0] < 0 || c[0] > 3 ||
+            c[1] < 0 || c[1] > 5 ||
+            c[2] < 0 || c[2] > 5 ||
+            c[3] < 0 || c[3] > 5) {
+            throw new IllegalArgumentException(
+                "Kustomisasi tidak valid.");
+        }
+
+        boba = c[0];
+        es = c[1];
+        gula = c[2];
+        karamel = c[3];
+    }
+
+    @Override
+    public void customize(List<Integer> c) {
+        customize(new int[]{
+            c.get(0), c.get(1), c.get(2), c.get(3)
+        });
     }
 
     @Override
     double hitungHargaTotal() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return getHargaBase()
+            + boba * 1000
+            + karamel * 3000;
     }
 
     @Override
-    public void customize() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    String getOrderDetail() {
+        return getNama()
+            + " | Boba: " + boba
+            + ", Es: " + es
+            + ", Gula: " + gula
+            + ", Karamel: " + karamel;
     }
-
-    @Override
-    public void notCustomize() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
 }
 
-class roti extends MenuItem implements Customizable{
-    private String gula;
-    private String meses;
-    private String karamel;
+class Roti extends MenuItem implements Customizable {
 
-    roti(String id, String nama, double hargaBase, int stok, String gula, String meses, String karamel){
+    private int gula;
+    private int meses;
+    private int karamel;
+
+    Roti(String id, String nama, double hargaBase, int stok) {
         super(id, nama, hargaBase, stok);
-        this.gula = gula;
-        this.meses = meses;
-        this.karamel = karamel;
+    }
+
+    @Override
+    public void customize(int[] c) {
+        if (c.length != 3 ||
+            c[0] < 0 || c[0] > 5 ||
+            c[1] < 0 || c[1] > 5 ||
+            c[2] < 0 || c[2] > 5) {
+            throw new IllegalArgumentException(
+                "Kustomisasi tidak valid.");
+        }
+
+        gula = c[0];
+        meses = c[1];
+        karamel = c[2];
+    }
+
+    @Override
+    public void customize(List<Integer> c) {
+        customize(new int[]{
+            c.get(0), c.get(1), c.get(2)
+        });
     }
 
     @Override
     double hitungHargaTotal() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return getHargaBase()
+            + meses * 500
+            + karamel * 3000;
     }
 
     @Override
-    public void customize() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    String getOrderDetail() {
+        return getNama()
+            + " | Gula: " + gula
+            + ", Meses: " + meses
+            + ", Karamel: " + karamel;
     }
-
-    @Override
-    public void notCustomize() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
 }
+
+class MenuTidakDitemukan extends Exception {
+    MenuTidakDitemukan(String pesan) {
+        super(pesan);
+    }
+}
+
+class StokTidakCukupException extends Exception {
+    StokTidakCukupException(String pesan) {
+        super(pesan);
+    }
+}
+
+
+public class main {
+
+    public static void main(String[] args) {
+
+        MenuItem Kopi = new Kopi(
+            "01", "Kopi Susu", 18000, 9);
+
+        MenuItem Teh = new Teh(
+            "02", "Teh Tarik", 15000, 10);
+
+        MenuItem roti = new Roti(
+            "03", "Roti Cokelat", 12000, 23);
+
+        System.out.println(
+            kopi.getId() + " | " + kopi.getNama()
+            + " | Rp" + kopi.getHargaBase()
+            + " | Stok: " + kopi.getStok());
+
+        System.out.println(
+            teh.getId() + " | " + teh.getNama()
+            + " | Rp" + teh.getHargaBase()
+            + " | Stok: " + teh.getStok());
+
+        System.out.println(
+            Roti.getId() + " | " + roti.getNama()
+            + " | Rp" + roti.getHargaBase()
+            + " | Stok: " + roti.getStok());
+
+        System.out.println("\nProgram berhasil dijalankan.");
+    }
+}
+// OK
