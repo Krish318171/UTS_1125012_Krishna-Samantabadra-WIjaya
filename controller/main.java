@@ -54,6 +54,16 @@ class kopi extends MenuItem implements Customizable{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public void customize() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void notCustomize() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }
 
 class teh extends MenuItem implements Customizable{
@@ -74,6 +84,16 @@ class teh extends MenuItem implements Customizable{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public void customize() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void notCustomize() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }
 
 class roti extends MenuItem implements Customizable{
@@ -89,6 +109,16 @@ class roti extends MenuItem implements Customizable{
 
     @Override
     double hitungHargaTotal() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void customize() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void notCustomize() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
